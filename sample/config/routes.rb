@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
-  mount ElasticsearchSimple::Engine => '/', :as => 'elasticsearch_simple'
-  mount PlayAuth::Engine => '/auth', :as => :auth
+  resources :courses do
+    collection do
+      get :standard_search
+      get :pinyin_search
+    end
+  end
+  #mount ElasticsearchSimple::Engine => '/', :as => 'elasticsearch_simple'
+  root to: 'courses#index'
 end
