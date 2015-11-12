@@ -2,3 +2,4 @@
 require 'elasticsearch_simple/engine'
 require 'elasticsearch/model'
 require 'elasticsearch/rails'
+require 'ruby-pinyin'

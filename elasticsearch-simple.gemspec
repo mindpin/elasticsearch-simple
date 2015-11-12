@@ -37,4 +37,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'jquery-rails', '>= 3.1.0'
   spec.add_dependency 'elasticsearch-model'
   spec.add_dependency 'elasticsearch-rails'
+  spec.add_dependency 'ruby-pinyin'
 end
