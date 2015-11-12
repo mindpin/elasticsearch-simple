@@ -1,38 +1,93 @@
 # ElasticsearchSimple
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/elasticsearch_simple`. To experiment with that code, run `bin/console` for an interactive prompt.
+elasticsearch-simple 是一个用于简化集成 elasticsearch for rails 的 gem
 
-TODO: Delete this and the text above, and describe your gem
+**注:暂时只支持 Mongoid 4.0，其余数据库类型均为测试 **
 
-## Installation
+## 安装
 
-Add this line to your application's Gemfile:
+**Gemfile**
 
 ```ruby
-gem 'elasticsearch_simple'
+gem 'elasticsearch_simple', github: 'mindpin/elasticsearch-simple'
 ```
 
-And then execute:
+然后:
+```shell
+bundle
+```
 
-    $ bundle
+## 使用说明
 
-Or install it yourself as:
+### 经典搜索
+**app/models/your_model.rb**
+```ruby
+class YourModel
+  include Mongoid::Document
+  # 引用
+  include ElasticsearchSimple::Concerns::StandardSearch
 
-    $ gem install elasticsearch_simple
+  field :name, type: String
+  field :desc, type: String
 
-## Usage
+  # 经典搜索，包含 name , desc 两个字段
+  standard :name, :desc
+end
+```
 
-TODO: Write usage instructions here
+```ruby
+# 经典搜索
+Course.standard_search(query)
+#=> #<Mongoid::Criteria >
+```
 
-## Development
+### 拼音搜索(含经典搜索)
+**app/models/your_model.rb**
+```ruby
+class YourModel
+  include Mongoid::Document
+  # 引用
+  include ElasticsearchSimple::Concerns::PinyinSearch
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake false` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+  field :name, type: String
+  field :desc, type: String
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+  # 拼音搜索，包含 name 字段
+  pinyin :name
+end
+```
+
+```ruby
+# 拼音搜索
+Course.pinyin_search(query)
+#=> #<Mongoid::Criteria >
+```
+
+## 示例
+
+示例为项目 sample/ 下，你可以通过以下方式进行查看：
+```shell
+cd sample
+bundle
+rails s
+```
+
+然后访问 http://localhost:3000
+
+## 测试
+
+测试需要 sample 项目 下进行，你可以通过以下指令进行测试：
+```shell
+cd sample
+bundle
+rspec
+```
+
+**注:测试需要 elasticsearch 支持**
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/elasticsearch_simple. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/mindpin/elasticsearch-simple. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
 
 
 ## License
