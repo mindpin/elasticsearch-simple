@@ -18,6 +18,12 @@ RSpec.describe Course, type: :model do
   end
 
   describe "实际搜搜测试" do
+    before do
+      create(:course)
+      create(:course, name: '了解顶翻2')
+      create(:course, name: '了解测试')
+    end
+
     it '#standard_search' do
       expect(Course.standard_search('了解').count).to eq(3)
       expect(Course.standard_search('顶翻').count).to eq(2)
