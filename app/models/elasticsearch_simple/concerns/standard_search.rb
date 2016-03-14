@@ -5,6 +5,8 @@ module ElasticsearchSimple
 
       included do
         include Searchable
+        
+        index_name ENV['es_simple_index_prefix'].to_s + self.model_name.collection.gsub(/\//, '-')
       end
 
       module ClassMethods
