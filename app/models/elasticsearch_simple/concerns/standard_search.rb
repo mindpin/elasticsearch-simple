@@ -7,7 +7,7 @@ module ElasticsearchSimple
         unless ENV['es_simple_enabled'] == 'false'
           include Searchable
 
-          index_name ENV['es_simple_index_prefix'].to_s + self.model_name.collection.gsub(/\//, '-')
+          index_name ENV['es_simple_index_prefix'].to_s + self.model_name.collection.gsub(/\//, '-') unless ENV['es_simple_index_prefix'].blank?
         end
       end
 
