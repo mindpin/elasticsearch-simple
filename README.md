@@ -19,6 +19,28 @@ bundle
 
 ## 使用说明
 
+### 配置
+```
+# Gemfile
+gem "figaro"
+```
+
+```
+# config/application.yml
+# es索引前缀
+  es_simple_index_prefix: kc-dev
+# 当为false强制关闭es功能（即不引用回调等）,其余或者不设定，为开启状态
+  es_simple_enabled: false
+```
+
+或者也可以通过其他方式，传入 **ENV['es_simple_index_prefix']**
+
+注意： 整体索引形式为
+```
+ENV['es_simple_index_prefix'].to_s + 默认索引名称
+```
+即 **ENV['es_simple_index_prefix']** 为空的话，则为默认索引名称
+
 ### 经典搜索
 **app/models/your_model.rb**
 ```ruby
