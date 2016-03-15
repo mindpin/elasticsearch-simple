@@ -4,11 +4,14 @@ module ElasticsearchSimple
       extend ActiveSupport::Concern
 
       included do
+        # 如果包含，则不会有standard_search
         include StandardSearch
+        unless ENV['es_simple_enabled'] == 'false'
 
-        delegate :pinyin_fields, :to => :class
+          delegate :pinyin_fields, :to => :class
 
-        before_save :save_pinyin_fields
+          before_save :save_pinyin_fields
+        end
       end
 
       private
@@ -24,6 +27,7 @@ module ElasticsearchSimple
 
       module ClassMethods
         def pinyin(*fields)
+          return if ENV['es_simple_enabled'] == 'false'
           standard(*fields)
 
           ext_fields = fields.select do |field|
@@ -61,6 +65,7 @@ module ElasticsearchSimple
         end
 
         def pinyin_search(q)
+          return [] if ENV['es_simple_enabled'] == 'false'
           fields = pinyin_fields.map {|f| pinyin_fields_from(f)}.flatten 
 
           param = {

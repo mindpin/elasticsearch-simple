@@ -4,13 +4,16 @@ module ElasticsearchSimple
       extend ActiveSupport::Concern
 
       included do
-        include Searchable
-        
-        index_name ENV['es_simple_index_prefix'].to_s + self.model_name.collection.gsub(/\//, '-')
+        unless ENV['es_simple_enabled'] == 'false'
+          include Searchable
+
+          index_name ENV['es_simple_index_prefix'].to_s + self.model_name.collection.gsub(/\//, '-')
+        end
       end
 
       module ClassMethods
         def standard_search(q)
+          return [] if ENV['es_simple_enabled'] == 'false'
           param = {
             :query => {
               :multi_match => {
@@ -27,6 +30,7 @@ module ElasticsearchSimple
         end
 
         def standard(*fields)
+          return if ENV['es_simple_enabled'] == 'false'
           standard_fields.merge fields
 
           settings :index => {:number_of_shards => 1} do

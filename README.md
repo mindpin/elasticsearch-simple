@@ -27,7 +27,10 @@ gem "figaro"
 
 ```
 # config/application.yml
+# es索引前缀
   es_simple_index_prefix: kc-dev
+# 当为false强制关闭es功能（即不引用回调等）,其余或者不设定，为开启状态
+  es_simple_enabled: false
 ```
 
 或者也可以通过其他方式，传入 **ENV['es_simple_index_prefix']**
