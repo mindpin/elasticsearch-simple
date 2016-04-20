@@ -31,6 +31,8 @@ gem "figaro"
   es_simple_index_prefix: kc-dev
 # 当为false强制关闭es功能（即不引用回调等）,其余或者不设定，为开启状态
   es_simple_enabled: false
+# elasticsearch analyzer 设置，默认为chinese
+  es_simple_analyzer: ik
 ```
 
 或者也可以通过其他方式，传入 **ENV['es_simple_index_prefix']**
@@ -84,6 +86,13 @@ end
 Course.pinyin_search(query)
 #=> #<Mongoid::Criteria >
 ```
+
+### analyzer 分词组件说明
+默认使用的为chinese,为官方提供
+https://github.com/elastic/elasticsearch-analysis-smartcn
+
+可以改为您喜欢的analyzer, 例如 **ik**
+https://github.com/medcl/elasticsearch-analysis-ik
 
 ## 示例
 
