@@ -20,7 +20,7 @@ module ElasticsearchSimple
                 :fields   => standard_fields,
                 :type     => "cross_fields",
                 :query    => q,
-                :analyzer => "standard",
+                :analyzer => ENV['es_simple_analyzer'] || "standard",
                 :operator => "and"
               }
             }
@@ -36,7 +36,7 @@ module ElasticsearchSimple
           settings :index => {:number_of_shards => 1} do
             mappings :dynamic => "false" do
               fields.each do |f|
-                indexes f, :analyzer => "chinese"
+                indexes f, :analyzer => ENV['es_simple_analyzer'] || "chinese"
               end
             end
           end
